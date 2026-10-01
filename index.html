@@ -49,7 +49,7 @@
             background-color: #e6c547;
         }
         
-        /* Finestra a comparsa (Modale stile disegno) */
+        /* Finestra Modale */
         #modal {
             display: none;
             position: fixed;
@@ -57,19 +57,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0,0,0,0.85);
             justify-content: center;
             align-items: center;
             z-index: 100;
         }
         .modal-content {
-            background-color: #d4af37; /* Colore giallo/carta del tuo disegno */
+            background-color: #d4af37;
             color: #000000;
             padding: 20px;
             border-radius: 15px;
             width: 85%;
-            max-width: 400px;
-            max-height: 80vh;
+            max-width: 450px;
+            max-height: 85vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -82,11 +82,11 @@
         }
         .script-textarea {
             width: 100%;
-            height: 220px;
+            height: 280px;
             background-color: #1a1a1a;
             color: #00ff88;
             font-family: monospace;
-            font-size: 12px;
+            font-size: 11px;
             border: 2px solid #000;
             border-radius: 8px;
             padding: 10px;
@@ -144,7 +144,7 @@
 
     <div id="notification"></div>
 
-    <!-- Finestra Modale (Il riquadro del tuo disegno) -->
+    <!-- Finestra Modale -->
     <div id="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal()">X</button>
@@ -159,7 +159,15 @@
     </div>
 
     <script>
-        const scriptTrollCode = `--[[ SCRIPT 1: Ultimate Rainbow Mega Troll Hub v13 ]]--
+        // SCRIPT TROLL INTERO AL 100%
+        const scriptTrollCode = `--[[
+    ========================================================================
+    SCRIPT: Ultimate Rainbow Mega Troll Hub v13 (Mega Expanded Edition)
+    CREATED BY: gg_script26
+    PLATFORM: Delta Executor (Mobile Touch & UI Optimized)
+    ========================================================================
+]]--
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
@@ -174,6 +182,9 @@ local humanoid = character:WaitForChild("Humanoid")
 local flying = false
 local flySpeed = 65
 local controlConnection = nil
+local targetToBug = nil
+local bugConnection = nil
+local isAttached = false
 local noclipEnabled = false
 local noclipConnection = nil
 local rainbowAuraEnabled = false
@@ -195,6 +206,8 @@ player.CharacterAdded:Connect(function(newChar)
     humanoidRootPart = newChar:WaitForChild("HumanoidRootPart")
     humanoid = newChar:WaitForChild("Humanoid")
     flying = false
+    targetToBug = nil
+    isAttached = false
     noclipEnabled = false
     rainbowAuraEnabled = false
     spinEnabled = false
@@ -205,6 +218,7 @@ player.CharacterAdded:Connect(function(newChar)
     lowGravityEnabled = false
     stroboEnabled = false
     Workspace.Gravity = originalGravity
+    if bugConnection then bugConnection:Disconnect() end
     if noclipConnection then noclipConnection:Disconnect() end
     if rainbowAuraConnection then rainbowAuraConnection:Disconnect() end
     if spinConnection then spinConnection:Disconnect() end
@@ -238,6 +252,16 @@ toggleButton.Active = true
 toggleButton.Draggable = true
 toggleButton.Parent = screenGui
 
+task.spawn(function()
+    while toggleButton and toggleButton.Parent do
+        pcall(function()
+            local hue = (tick() % 4) / 4
+            toggleButton.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+        end)
+        task.wait(0.05)
+    end
+end)
+
 local mainFrame = Instance.new("Frame")
 mainFrame.Size = UDim2.new(0, 290, 0, 560)
 mainFrame.Position = UDim2.new(0.12, 0, 0.05, 0)
@@ -248,6 +272,16 @@ mainFrame.Active = true
 mainFrame.Draggable = true
 mainFrame.Visible = true
 mainFrame.Parent = screenGui
+
+task.spawn(function()
+    while mainFrame and mainFrame.Parent do
+        pcall(function()
+            local hue = (tick() % 6) / 6
+            mainFrame.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+        end)
+        task.wait(0.05)
+    end
+end)
 
 local menuOpen = true
 toggleButton.MouseButton1Click:Connect(function()
@@ -265,6 +299,16 @@ titleLabel.TextScaled = true
 titleLabel.Font = Enum.Font.SciFi
 titleLabel.Parent = mainFrame
 
+local creditLabel = Instance.new("TextLabel")
+creditLabel.Size = UDim2.new(1, 0, 0, 16)
+creditLabel.Position = UDim2.new(0, 0, 0, 38)
+creditLabel.BackgroundTransparency = 1
+creditLabel.Text = "by gg_script26 (Expanded)"
+creditLabel.TextColor3 = Color3.fromRGB(255, 100, 200)
+creditLabel.TextScaled = true
+creditLabel.Font = Enum.Font.Code
+creditLabel.Parent = mainFrame
+
 local function createButton(posY, text, baseColor)
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0.9, 0, 0, 32)
@@ -280,90 +324,232 @@ local function createButton(posY, text, baseColor)
     return btn
 end
 
-createButton(58, "FLY: OFF", Color3.fromRGB(25, 25, 40))
-print("Hub caricato!")`;
+local flyButton = createButton(58, "FLY: OFF", Color3.fromRGB(25, 25, 40))
+local noclipButton = createButton(94, "NOCLIP (ATTRAVERSA MURI): OFF", Color3.fromRGB(25, 25, 40))
+local rainbowAuraButton = createButton(130, "RAINBOW AURA CORPO: OFF", Color3.fromRGB(25, 25, 40))
+local spinButton = createButton(166, "SPIN TROLL: OFF", Color3.fromRGB(25, 25, 40))
+local speedButton = createButton(202, "SPEED BOOST: OFF", Color3.fromRGB(25, 25, 40))
+local jumpButton = createButton(238, "SUPER JUMP: OFF", Color3.fromRGB(25, 25, 40))
+local invisButton = createButton(274, "INVISIBILITÀ: OFF", Color3.fromRGB(25, 25, 40))
+local discoButton = createButton(310, "DISCO PARTY MONDIALE: OFF", Color3.fromRGB(150, 0, 100))
+local gravityButton = createButton(346, "GRAVITÀ BASSA (LUNARE): OFF", Color3.fromRGB(0, 100, 150))
+local stroboButton = createButton(382, "FLASH STROBO MONDIALE: OFF", Color3.fromRGB(150, 0, 0))
+local tpRandomButton = createButton(418, "TELEPORT SU PLAYER CASUALE", Color3.fromRGB(100, 50, 150))
+local pushButton = createButton(454, "💣 ESPLOSIONE OGGETTI (TUTTI VID)", Color3.fromRGB(150, 50, 0))
+local releaseButton = createButton(490, "DETACH / UNLOCK TARGET", Color3.fromRGB(120, 20, 40))
+local statusButton = createButton(526, "TOUCH TROLL: ACTIVE", Color3.fromRGB(70, 0, 110))
 
-        const scriptDisastersCode = `--[[ SCRIPT 2: Ultimate Mega Troll Hub v17 ]]--
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local Workspace = game:GetService("Workspace")
-local Lighting = game:GetService("Lighting")
+local cyberNotice = Instance.new("TextLabel")
+cyberNotice.Size = UDim2.new(1, 0, 0.2, 0)
+cyberNotice.Position = UDim2.new(0, 0, 0.4, 0)
+cyberNotice.BackgroundTransparency = 1
+cyberNotice.Text = "🌟 [GLOBAL EVENT ACTIVE] 🌟"
+cyberNotice.TextColor3 = Color3.fromRGB(255, 0, 128)
+cyberNotice.TextScaled = true
+cyberNotice.Font = Enum.Font.SciFi
+cyberNotice.Visible = false
+cyberNotice.Parent = screenGui
 
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-local humanoid = character:WaitForChild("Humanoid")
-
-local playerGui = player:WaitForChild("PlayerGui")
-if playerGui:FindFirstChild("MegaTrollHubV17") then
-    playerGui.MegaTrollHubV17:Destroy()
+local function showCyberNotice(text, color)
+    task.spawn(function()
+        cyberNotice.Text = text
+        cyberNotice.TextColor3 = color
+        cyberNotice.Visible = true
+        for i = 1, 10 do
+            cyberNotice.Position = UDim2.new(math.random(-4,4)/100, 0, 0.4 + math.random(-4,4)/100, 0)
+            task.wait(0.03)
+        end
+        task.wait(1.5)
+        cyberNotice.Visible = false
+        cyberNotice.Position = UDim2.new(0, 0, 0.4, 0)
+    end)
 end
 
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "MegaTrollHubV17"
-screenGui.Parent = playerGui
+local function toggleFlight()
+    flying = not flying
+    if flying then
+        flyButton.Text = "FLY: ON"
+        flyButton.BackgroundColor3 = Color3.fromRGB(0, 140, 100)
+        humanoid.PlatformStand = true
 
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 55, 0, 55)
-toggleButton.Position = UDim2.new(0.02, 0, 0.15, 0)
-toggleButton.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-toggleButton.BorderColor3 = Color3.fromRGB(255, 0, 128)
-toggleButton.BorderSizePixel = 2
-toggleButton.Text = "⚡"
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.TextScaled = true
-toggleButton.Font = Enum.Font.SciFi
-toggleButton.Active = true
-toggleButton.Draggable = true
-toggleButton.Parent = screenGui
+        controlConnection = RunService.RenderStepped:Connect(function()
+            pcall(function()
+                if flying and humanoidRootPart and not isAttached then
+                    local camera = Workspace.CurrentCamera
+                    local moveDir = humanoid.MoveDirection
+                    local velocity = Vector3.new(0, 0, 0)
+                    if moveDir.Magnitude > 0 then
+                        velocity = camera.CFrame:VectorToWorldSpace(Vector3.new(moveDir.X, 0, moveDir.Z)) * flySpeed
+                    end
+                    humanoidRootPart.Velocity = velocity
+                    humanoidRootPart.CFrame = CFrame.new(humanoidRootPart.Position, humanoidRootPart.Position + camera.CFrame.LookVector)
+                end
+            end)
+        end)
+    else
+        flyButton.Text = "FLY: OFF"
+        flyButton.BackgroundColor3 = Color3.fromRGB(25, 25, 40)
+        humanoid.PlatformStand = false
+        if controlConnection then controlConnection:Disconnect() end
+        if humanoidRootPart then humanoidRootPart.Velocity = Vector3.new(0, 0, 0) end
+    end
+end
+flyButton.MouseButton1Click:Connect(toggleFlight)
 
-local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 270, 0, 530)
-mainFrame.Position = UDim2.new(0.12, 0, 0.1, 0)
-mainFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 18)
-mainFrame.BorderColor3 = Color3.fromRGB(255, 0, 128)
-mainFrame.BorderSizePixel = 3
-mainFrame.Active = true
-mainFrame.Draggable = true
-mainFrame.Visible = true
-mainFrame.Parent = screenGui
-
-toggleButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = not mainFrame.Visible
+noclipButton.MouseButton1Click:Connect(function()
+    noclipEnabled = not noclipEnabled
+    if noclipEnabled then
+        noclipButton.Text = "NOCLIP: ON"
+        noclipButton.BackgroundColor3 = Color3.fromRGB(0, 140, 100)
+        noclipConnection = RunService.Stepped:Connect(function()
+            pcall(function()
+                if character then
+                    for _, part in ipairs(character:GetDescendants()) do
+                        if part:IsA("BasePart") then part.CanCollide = false end
+                    end
+                end
+            end)
+        end)
+    else
+        noclipButton.Text = "NOCLIP: OFF"
+        noclipButton.BackgroundColor3 = Color3.fromRGB(25, 25, 40)
+        if noclipConnection then noclipConnection:Disconnect() end
+    end
 end)
 
-print("Hub v17 caricato!")`;
+rainbowAuraButton.MouseButton1Click:Connect(function()
+    rainbowAuraEnabled = not rainbowAuraEnabled
+    if rainbowAuraEnabled then
+        rainbowAuraButton.Text = "RAINBOW AURA: ON"
+        rainbowAuraButton.BackgroundColor3 = Color3.fromRGB(150, 0, 150)
+        rainbowAuraConnection = RunService.RenderStepped:Connect(function()
+            pcall(function()
+                if character then
+                    local col = Color3.fromHSV((tick() * 2) % 1, 1, 1)
+                    for _, part in ipairs(character:GetDescendants()) do
+                        if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+                            part.Color = col
+                        end
+                    end
+                end
+            end)
+        end)
+    else
+        rainbowAuraButton.Text = "RAINBOW AURA: OFF"
+        rainbowAuraButton.BackgroundColor3 = Color3.fromRGB(25, 25, 40)
+        if rainbowAuraConnection then rainbowAuraConnection:Disconnect() end
+    end
+end)
 
-        function openScriptModal(type) {
-            let modal = document.getElementById("modal");
-            let box = document.getElementById("script-box");
-            let title = document.getElementById("modal-title");
-            
-            if (type === 'troll') {
-                title.innerText = "Script Troll";
-                box.value = scriptTrollCode;
-            } else {
-                title.innerText = "Script Disasters";
-                box.value = scriptDisastersCode;
-            }
-            modal.style.display = "flex";
-        }
+spinButton.MouseButton1Click:Connect(function()
+    spinEnabled = not spinEnabled
+    if spinEnabled then
+        spinButton.Text = "SPIN TROLL: ON"
+        spinButton.BackgroundColor3 = Color3.fromRGB(150, 100, 0)
+        spinConnection = RunService.RenderStepped:Connect(function()
+            pcall(function()
+                if humanoidRootPart and spinEnabled then
+                    humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.Angles(0, math.rad(40), 0)
+                end
+            end)
+        end)
+    else
+        spinButton.Text = "SPIN TROLL: OFF"
+        spinButton.BackgroundColor3 = Color3.fromRGB(25, 25, 40)
+        if spinConnection then spinConnection:Disconnect() end
+    end
+end)
 
-        function closeModal() {
-            document.getElementById("modal").style.display = "none";
-        }
+speedButton.MouseButton1Click:Connect(function()
+    speedBoostEnabled = not speedBoostEnabled
+    humanoid.WalkSpeed = speedBoostEnabled and 45 or 16
+    speedButton.Text = speedBoostEnabled and "SPEED BOOST: ON" or "SPEED BOOST: OFF"
+    speedButton.BackgroundColor3 = speedBoostEnabled and Color3.fromRGB(0, 140, 100) or Color3.fromRGB(25, 25, 40)
+end)
 
-        function copyFromBox() {
-            let box = document.getElementById("script-box");
-            box.select();
-            navigator.clipboard.writeText(box.value).then(() => {
-                let notice = document.getElementById("notification");
-                notice.innerText = "Copiato negli appunti! 📋";
-                setTimeout(() => {
-                    notice.innerText = "";
-                }, 2500);
-            });
-        }
-    </script>
-</body>
-</html>
+jumpButton.MouseButton1Click:Connect(function()
+    jumpBoostEnabled = not jumpBoostEnabled
+    humanoid.JumpPower = jumpBoostEnabled and 120 or 50
+    jumpButton.Text = jumpBoostEnabled and "SUPER JUMP: ON" or "SUPER JUMP: OFF"
+    jumpButton.BackgroundColor3 = jumpBoostEnabled and Color3.fromRGB(0, 140, 100) or Color3.fromRGB(25, 25, 40)
+end)
+
+invisButton.MouseButton1Click:Connect(function()
+    invisibleEnabled = not invisibleEnabled
+    for _, part in ipairs(character:GetDescendants()) do
+        pcall(function()
+            if part:IsA("BasePart") or part:IsA("Decal") then
+                part.Transparency = invisibleEnabled and 1 or 0
+            end
+        end)
+    end
+    invisButton.Text = invisibleEnabled and "INVISIBILITÀ: ON" or "INVISIBILITÀ: OFF"
+    invisButton.BackgroundColor3 = invisibleEnabled and Color3.fromRGB(100, 100, 100) or Color3.fromRGB(25, 25, 40)
+end)
+
+discoButton.MouseButton1Click:Connect(function()
+    discoEnabled = not discoEnabled
+    if discoEnabled then
+        discoButton.Text = "DISCO PARTY: ON"
+        discoButton.BackgroundColor3 = Color3.fromRGB(0, 200, 100)
+        showCyberNotice("🪩 [DISCO PARTY GLOBALE] 🪩", Color3.fromRGB(0, 255, 150))
+        discoConnection = RunService.RenderStepped:Connect(function()
+            pcall(function()
+                local col = Color3.fromHSV((tick() * 3) % 1, 1, 1)
+                for _, obj in ipairs(Workspace:GetDescendants()) do
+                    if obj:IsA("BasePart") and not obj:IsDescendantOf(character) then
+                        obj.Color = col
+                    end
+                end
+            end)
+        end)
+    else
+        discoButton.Text = "DISCO PARTY: OFF"
+        discoButton.BackgroundColor3 = Color3.fromRGB(150, 0, 100)
+        if discoConnection then discoConnection:Disconnect() end
+    end
+end)
+
+gravityButton.MouseButton1Click:Connect(function()
+    lowGravityEnabled = not lowGravityEnabled
+    if lowGravityEnabled then
+        gravityButton.Text = "GRAVITÀ BASSA: ON"
+        gravityButton.BackgroundColor3 = Color3.fromRGB(0, 150, 200)
+        Workspace.Gravity = 30
+        showCyberNotice("🌙 [GRAVITÀ LUNARE ATTIVA] 🌙", Color3.fromRGB(100, 200, 255))
+    else
+        gravityButton.Text = "GRAVITÀ BASSA: OFF"
+        gravityButton.BackgroundColor3 = Color3.fromRGB(0, 100, 150)
+        Workspace.Gravity = originalGravity
+    end
+end)
+
+stroboButton.MouseButton1Click:Connect(function()
+    stroboEnabled = not stroboEnabled
+    if stroboEnabled then
+        stroboButton.Text = "FLASH STROBO: ON"
+        stroboButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+        showCyberNotice("🚨 [MODALITÀ STROBO ATTIVA] 🚨", Color3.fromRGB(255, 0, 0))
+        stroboConnection = RunService.RenderStepped:Connect(function()
+            pcall(function()
+                Lighting.Brightness = math.random(1, 10)
+                Lighting.ClockTime = math.random(0, 24)
+            end)
+        end)
+    else
+        stroboButton.Text = "FLASH STROBO: OFF"
+        stroboButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+        if stroboConnection then stroboConnection:Disconnect() end
+        Lighting.Brightness = 2
+        Lighting.ClockTime = 14
+    end
+end)
+
+tpRandomButton.MouseButton1Click:Connect(function()
+    pcall(function()
+        local allPlayers = Players:GetPlayers()
+        local validTargets = {}
+        for _, p in ipairs(allPlayers) do
+            if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                table.insert(validTargets, p.Character.HumanoidRootPart)
+   
