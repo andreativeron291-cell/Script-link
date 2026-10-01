@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub Scripts - Delta Pro</title>
+    <title>Hub Scripts - Delta Fix</title>
     <style>
         body {
             background-color: #0b0b10;
@@ -20,46 +20,69 @@
         }
         h1 {
             color: #ff0080;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: center;
-            font-size: 22px;
-            text-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
+            font-size: 20px;
         }
         .btn-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             width: 100%;
             max-width: 320px;
         }
         .script-btn {
-            background: linear-gradient(135deg, #d4af37, #aa8c2c);
+            background-color: #d4af37;
             color: #000000;
             border: 2px solid #fff;
-            border-radius: 14px;
-            padding: 22px;
-            font-size: 18px;
+            border-radius: 12px;
+            padding: 18px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-            transition: transform 0.1s ease, filter 0.2s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
         }
         .script-btn:active {
-            transform: scale(0.94);
-            filter: brightness(1.2);
+            transform: scale(0.95);
         }
-        #notification {
-            margin-top: 25px;
+        
+        /* Box a comparsa forzata per la copia manuale/guidata */
+        #box-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 350px;
+            background: #1a1a24;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #ff0080;
+            box-sizing: border-box;
+        }
+        textarea {
+            width: 100%;
+            height: 140px;
+            background-color: #000;
             color: #00ff88;
-            font-weight: bold;
+            font-size: 11px;
+            font-family: monospace;
+            border: 1px solid #d4af37;
+            border-radius: 6px;
+            padding: 8px;
+            resize: none;
+            box-sizing: border-box;
+        }
+        .info-copia {
+            font-size: 12px;
+            color: #ff0080;
+            margin-bottom: 8px;
             text-align: center;
-            font-size: 16px;
-            min-height: 25px;
-            text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+            font-weight: bold;
         }
         .footer {
-            margin-top: 40px;
+            margin-top: 30px;
             font-size: 12px;
             color: #ff64c8;
             text-align: center;
@@ -68,14 +91,17 @@
 </head>
 <body>
 
-    <h1>⚡ COPIA RAPIDA SCRIPT ⚡</h1>
+    <h1>⚡ APRI E COPIA SCRIPT ⚡</h1>
 
     <div class="btn-container">
-        <button class="script-btn" onclick="copyScript('troll')">📋 COPIA SCRIPT TROLL</button>
-        <button class="script-btn" onclick="copyScript('disasters')">📋 COPIA SCRIPT DISASTERS</button>
+        <button class="script-btn" onclick="mostraScript('troll')">📋 APRI SCRIPT TROLL</button>
+        <button class="script-btn" onclick="mostraScript('disasters')">📋 APRI SCRIPT DISASTERS</button>
     </div>
 
-    <div id="notification">Tocca un pulsante per copiare lo script istantaneamente</div>
+    <div id="box-container">
+        <span class="info-copia">Tieni premuto nel box, seleziona tutto e copia!</span>
+        <textarea id="output-code" readonly onclick="this.focus(); this.select();"></textarea>
+    </div>
 
     <div class="footer">
         by gg_script26, andrea_susamongus29
@@ -514,24 +540,4 @@ print("Ultimate Rainbow Mega Troll Hub v13 caricato correttamente!");`;
 
         // SCRIPT DISASTERS INTERO AL 100%
         const scriptDisastersCode = `--[[
-    SCRIPT: Ultimate Mega Troll Hub v17 (Disasters & Mobile Icon Edition)
-    PLATFORM: Delta Executor
-]]--
-
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local Workspace = game:GetService("Workspace")
-local Lighting = game:GetService("Lighting")
-
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-local humanoid = character:WaitForChild("Humanoid")
-
-local playerGui = player:WaitForChild("PlayerGui")
-if playerGui:FindFirstChild("MegaTrollHubV17") then
-    playerGui.MegaTrollHubV17:Destroy()
-end
-
-local screenGui = Instance.new("ScreenGui")
-screenGui
+    SCRIPT: Ultimate M
