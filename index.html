@@ -49,7 +49,7 @@
             background-color: #e6c547;
         }
         
-        /* Finestra Modale */
+        /* Finestra Modale (stile disegno) */
         #modal {
             display: none;
             position: fixed;
@@ -67,22 +67,24 @@
             color: #000000;
             padding: 20px;
             border-radius: 15px;
-            width: 85%;
+            width: 90%;
             max-width: 450px;
             max-height: 85vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+            box-sizing: border-box;
         }
         .modal-content h3 {
             margin-top: 0;
+            margin-bottom: 10px;
             font-size: 18px;
             text-align: center;
         }
         .script-textarea {
             width: 100%;
-            height: 280px;
+            height: 260px;
             background-color: #1a1a1a;
             color: #00ff88;
             font-family: monospace;
@@ -92,14 +94,16 @@
             padding: 10px;
             resize: none;
             box-sizing: border-box;
+            -webkit-user-select: text;
+            user-select: text;
         }
         .copy-action-btn {
             background-color: #0b0b10;
             color: #d4af37;
             border: 2px solid #000;
             border-radius: 10px;
-            padding: 12px 30px;
-            font-size: 16px;
+            padding: 14px 35px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             margin-top: 15px;
@@ -111,11 +115,12 @@
         .close-modal {
             background: none;
             border: none;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
             cursor: pointer;
             align-self: flex-end;
-            margin-bottom: -10px;
+            margin-top: -5px;
+            margin-bottom: -5px;
             color: #000;
         }
         #notification {
@@ -549,7 +554,4 @@ tpRandomButton.MouseButton1Click:Connect(function()
     pcall(function()
         local allPlayers = Players:GetPlayers()
         local validTargets = {}
-        for _, p in ipairs(allPlayers) do
-            if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-                table.insert(validTargets, p.Character.HumanoidRootPart)
-   
+        for _, p in ipairs(allPla
