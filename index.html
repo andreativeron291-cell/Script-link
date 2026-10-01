@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub Scripts - Delta</title>
+    <title>Hub Scripts - Delta Pro</title>
     <style>
         body {
             background-color: #0b0b10;
@@ -13,122 +13,50 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
         h1 {
             color: #ff0080;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             text-align: center;
-            font-size: 24px;
+            font-size: 22px;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
         }
         .btn-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            width: 80%;
-            max-width: 300px;
+            width: 100%;
+            max-width: 320px;
         }
         .script-btn {
-            background-color: #d4af37;
+            background: linear-gradient(135deg, #d4af37, #aa8c2c);
             color: #000000;
-            border: none;
-            border-radius: 12px;
-            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 14px;
+            padding: 22px;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            transition: transform 0.1s ease, background-color 0.2s;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            transition: transform 0.1s ease, filter 0.2s;
         }
         .script-btn:active {
-            transform: scale(0.95);
-        }
-        .script-btn:hover {
-            background-color: #e6c547;
-        }
-        
-        /* Finestra Modale (stile disegno) */
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
-        .modal-content {
-            background-color: #d4af37;
-            color: #000000;
-            padding: 20px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 450px;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
-            box-sizing: border-box;
-        }
-        .modal-content h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 18px;
-            text-align: center;
-        }
-        .script-textarea {
-            width: 100%;
-            height: 260px;
-            background-color: #1a1a1a;
-            color: #00ff88;
-            font-family: monospace;
-            font-size: 11px;
-            border: 2px solid #000;
-            border-radius: 8px;
-            padding: 10px;
-            resize: none;
-            box-sizing: border-box;
-            -webkit-user-select: text;
-            user-select: text;
-        }
-        .copy-action-btn {
-            background-color: #0b0b10;
-            color: #d4af37;
-            border: 2px solid #000;
-            border-radius: 10px;
-            padding: 14px 35px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .copy-action-btn:active {
-            transform: scale(0.95);
-        }
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-            align-self: flex-end;
-            margin-top: -5px;
-            margin-bottom: -5px;
-            color: #000;
+            transform: scale(0.94);
+            filter: brightness(1.2);
         }
         #notification {
-            margin-top: 15px;
+            margin-top: 25px;
             color: #00ff88;
             font-weight: bold;
             text-align: center;
-            font-size: 14px;
+            font-size: 16px;
+            min-height: 25px;
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
         }
         .footer {
             margin-top: 40px;
@@ -140,24 +68,14 @@
 </head>
 <body>
 
-    <h1>⚡ SELEZIONA SCRIPT ⚡</h1>
+    <h1>⚡ COPIA RAPIDA SCRIPT ⚡</h1>
 
     <div class="btn-container">
-        <button class="script-btn" onclick="openScriptModal('troll')">script troll</button>
-        <button class="script-btn" onclick="openScriptModal('disasters')">script disasters</button>
+        <button class="script-btn" onclick="copyScript('troll')">📋 COPIA SCRIPT TROLL</button>
+        <button class="script-btn" onclick="copyScript('disasters')">📋 COPIA SCRIPT DISASTERS</button>
     </div>
 
-    <div id="notification"></div>
-
-    <!-- Finestra Modale -->
-    <div id="modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">X</button>
-            <h3 id="modal-title">Script</h3>
-            <textarea id="script-box" class="script-textarea" readonly></textarea>
-            <button class="copy-action-btn" onclick="copyFromBox()">COPY</button>
-        </div>
-    </div>
+    <div id="notification">Tocca un pulsante per copiare lo script istantaneamente</div>
 
     <div class="footer">
         by gg_script26, andrea_susamongus29
@@ -554,4 +472,66 @@ tpRandomButton.MouseButton1Click:Connect(function()
     pcall(function()
         local allPlayers = Players:GetPlayers()
         local validTargets = {}
-        for _, p in ipairs(allPla
+        for _, p in ipairs(allPlayers) do
+            if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                table.insert(validTargets, p.Character.HumanoidRootPart)
+            end
+        end
+        if #validTargets > 0 then
+            local randomTarget = validTargets[math.random(1, #validTargets)]
+            humanoidRootPart.CFrame = randomTarget.CFrame + Vector3.new(0, 4, 0)
+            showCyberNotice("⚡ [TELEPORT SU PLAYER] ⚡", Color3.fromRGB(200, 100, 255))
+        else
+            showCyberNotice("⚠️ [NESSUN TARGET DISPONIBILE] ⚠️", Color3.fromRGB(255, 100, 100))
+        end
+    end)
+end)
+
+pushButton.MouseButton1Click:Connect(function()
+    showCyberNotice("💣 [OGGETTI LANCIATI IN ARIA!] 💣", Color3.fromRGB(255, 100, 0))
+    for _, obj in ipairs(Workspace:GetDescendants()) do
+        pcall(function()
+            if obj:IsA("BasePart") and not obj.Anchored and not obj:IsDescendantOf(character) then
+                obj.Velocity = Vector3.new(math.random(-80, 80), 120, math.random(-80, 80))
+            end
+        end)
+    end
+end)
+
+local function detachTarget()
+    targetToBug = nil
+    isAttached = false
+    if bugConnection then bugConnection:Disconnect() end
+    if humanoid then humanoid.PlatformStand = false end
+end
+
+releaseButton.MouseButton1Click:Connect(function()
+    detachTarget()
+    showCyberNotice("⚠️ [SGANCIATO CORRETTAMENTE] ⚠️", Color3.fromRGB(255, 50, 50))
+end)
+
+print("Ultimate Rainbow Mega Troll Hub v13 caricato correttamente!");`;
+
+        // SCRIPT DISASTERS INTERO AL 100%
+        const scriptDisastersCode = `--[[
+    SCRIPT: Ultimate Mega Troll Hub v17 (Disasters & Mobile Icon Edition)
+    PLATFORM: Delta Executor
+]]--
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local humanoid = character:WaitForChild("Humanoid")
+
+local playerGui = player:WaitForChild("PlayerGui")
+if playerGui:FindFirstChild("MegaTrollHubV17") then
+    playerGui.MegaTrollHubV17:Destroy()
+end
+
+local screenGui = Instance.new("ScreenGui")
+screenGui
