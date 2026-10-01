@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub Scripts - Delta Fix</title>
+    <title>Hub Scripts</title>
     <style>
         body {
             background-color: #0b0b10;
@@ -18,69 +18,106 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        h1 {
-            color: #ff0080;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 20px;
-        }
-        .btn-container {
+
+        #menu-principale {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            align-items: center;
+            gap: 25px;
             width: 100%;
             max-width: 320px;
         }
-        .script-btn {
-            background-color: #d4af37;
+
+        .main-btn {
+            background-color: #c4b533;
             color: #000000;
-            border: 2px solid #fff;
-            border-radius: 12px;
-            padding: 18px;
-            font-size: 16px;
+            border: 3px solid #000;
+            border-radius: 16px;
+            padding: 24px;
+            font-size: 22px;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            width: 100%;
+            box-shadow: 0 6px 15px rgba(196, 181, 51, 0.4);
+            text-transform: lowercase;
         }
-        .script-btn:active {
+        .main-btn:active {
             transform: scale(0.95);
         }
-        
-        /* Box a comparsa forzata per la copia manuale/guidata */
-        #box-container {
+
+        #schermata-script {
             display: none;
             flex-direction: column;
             align-items: center;
-            margin-top: 20px;
             width: 100%;
-            max-width: 350px;
-            background: #1a1a24;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid #ff0080;
-            box-sizing: border-box;
+            max-width: 340px;
         }
+
+        .script-box {
+            background-color: #c4b533;
+            border: 3px solid #000;
+            border-radius: 20px;
+            padding: 15px;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 8px 25px rgba(196, 181, 51, 0.3);
+        }
+
         textarea {
             width: 100%;
-            height: 140px;
-            background-color: #000;
+            height: 290px;
+            background-color: #1a1a1a;
             color: #00ff88;
-            font-size: 11px;
+            font-size: 8px;
             font-family: monospace;
-            border: 1px solid #d4af37;
-            border-radius: 6px;
-            padding: 8px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 10px;
             resize: none;
             box-sizing: border-box;
+            margin-bottom: 15px;
         }
-        .info-copia {
-            font-size: 12px;
-            color: #ff0080;
-            margin-bottom: 8px;
-            text-align: center;
+
+        .copy-btn {
+            background-color: #c4b533;
+            color: #000000;
+            border: 3px solid #000;
+            border-radius: 14px;
+            padding: 15px 40px;
+            font-size: 20px;
             font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            margin-top: 20px;
+            text-transform: uppercase;
         }
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #ff64c8;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: underline;
+        }
+
+        #notifica {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #00ff88;
+            font-weight: bold;
+            height: 20px;
+            text-align: center;
+        }
+
         .footer {
             margin-top: 30px;
             font-size: 12px;
@@ -91,16 +128,20 @@
 </head>
 <body>
 
-    <h1>⚡ APRI E COPIA SCRIPT ⚡</h1>
-
-    <div class="btn-container">
-        <button class="script-btn" onclick="mostraScript('troll')">📋 APRI SCRIPT TROLL</button>
-        <button class="script-btn" onclick="mostraScript('disasters')">📋 APRI SCRIPT DISASTERS</button>
+    <!-- MENU PRINCIPALE -->
+    <div id="menu-principale">
+        <button class="main-btn" onclick="apriScript('troll')">script troll</button>
+        <button class="main-btn" onclick="apriScript('disasters')">script disasters</button>
     </div>
 
-    <div id="box-container">
-        <span class="info-copia">Tieni premuto nel box, seleziona tutto e copia!</span>
-        <textarea id="output-code" readonly onclick="this.focus(); this.select();"></textarea>
+    <!-- SCHERMATA CON IL BOX E IL TASTO COPY -->
+    <div id="schermata-script">
+        <div class="script-box">
+            <textarea id="casella-testo" readonly></textarea>
+        </div>
+        <button class="copy-btn" onclick="eseguiCopia()">COPY</button>
+        <div id="notifica"></div>
+        <button class="back-btn" onclick="tornaAlMenu()">← Indietro</button>
     </div>
 
     <div class="footer">
@@ -108,7 +149,7 @@
     </div>
 
     <script>
-        // SCRIPT TROLL INTERO AL 100%
+        // SCRIPT 1: IL TUO PRIMO SCRIPT COMPLETO (TROLL HUB v13)
         const scriptTrollCode = `--[[
     ========================================================================
     SCRIPT: Ultimate Rainbow Mega Troll Hub v13 (Mega Expanded Edition)
@@ -510,34 +551,4 @@ tpRandomButton.MouseButton1Click:Connect(function()
         else
             showCyberNotice("⚠️ [NESSUN TARGET DISPONIBILE] ⚠️", Color3.fromRGB(255, 100, 100))
         end
-    end)
-end)
-
-pushButton.MouseButton1Click:Connect(function()
-    showCyberNotice("💣 [OGGETTI LANCIATI IN ARIA!] 💣", Color3.fromRGB(255, 100, 0))
-    for _, obj in ipairs(Workspace:GetDescendants()) do
-        pcall(function()
-            if obj:IsA("BasePart") and not obj.Anchored and not obj:IsDescendantOf(character) then
-                obj.Velocity = Vector3.new(math.random(-80, 80), 120, math.random(-80, 80))
-            end
-        end)
-    end
-end)
-
-local function detachTarget()
-    targetToBug = nil
-    isAttached = false
-    if bugConnection then bugConnection:Disconnect() end
-    if humanoid then humanoid.PlatformStand = false end
-end
-
-releaseButton.MouseButton1Click:Connect(function()
-    detachTarget()
-    showCyberNotice("⚠️ [SGANCIATO CORRETTAMENTE] ⚠️", Color3.fromRGB(255, 50, 50))
-end)
-
-print("Ultimate Rainbow Mega Troll Hub v13 caricato correttamente!");`;
-
-        // SCRIPT DISASTERS INTERO AL 100%
-        const scriptDisastersCode = `--[[
-    SCRIPT: Ultimate M
+  
