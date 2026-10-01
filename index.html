@@ -56,8 +56,8 @@
 
         .script-box {
             background-color: #c4b533;
-            border: 3px solid #000;
-            border-radius: 20px;
+            border: 3px solid #000000;
+            border-radius: 25px;
             padding: 15px;
             width: 100%;
             box-sizing: border-box;
@@ -69,29 +69,28 @@
 
         textarea {
             width: 100%;
-            height: 290px;
+            height: 280px;
             background-color: #1a1a1a;
             color: #00ff88;
             font-size: 8px;
             font-family: monospace;
             border: 2px solid #000;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 10px;
             resize: none;
             box-sizing: border-box;
-            margin-bottom: 15px;
         }
 
         .copy-btn {
             background-color: #c4b533;
             color: #000000;
-            border: 3px solid #000;
-            border-radius: 14px;
-            padding: 15px 40px;
-            font-size: 20px;
+            border: 3px solid #000000;
+            border-radius: 16px;
+            padding: 14px 40px;
+            font-size: 22px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 15px rgba(196, 181, 51, 0.4);
             margin-top: 20px;
             text-transform: uppercase;
         }
@@ -134,7 +133,7 @@
         <button class="main-btn" onclick="apriScript('disasters')">script disasters</button>
     </div>
 
-    <!-- SCHERMATA CON IL BOX E IL TASTO COPY -->
+    <!-- SCHERMATA SCRIPT -->
     <div id="schermata-script">
         <div class="script-box">
             <textarea id="casella-testo" readonly></textarea>
@@ -149,7 +148,7 @@
     </div>
 
     <script>
-        // SCRIPT 1: IL TUO PRIMO SCRIPT COMPLETO (TROLL HUB v13)
+        // SCRIPT TROLL INTERO AL 100%
         const scriptTrollCode = `--[[
     ========================================================================
     SCRIPT: Ultimate Rainbow Mega Troll Hub v13 (Mega Expanded Edition)
@@ -161,7 +160,7 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
-local Workspace = groot or game:GetService("Workspace")
+local Workspace = game:GetService("Workspace")
 local Lighting = game:GetService("Lighting")
 
 local player = Players.LocalPlayer
@@ -551,4 +550,8 @@ tpRandomButton.MouseButton1Click:Connect(function()
         else
             showCyberNotice("⚠️ [NESSUN TARGET DISPONIBILE] ⚠️", Color3.fromRGB(255, 100, 100))
         end
-  
+    end)
+end)
+
+pushButton.MouseButton1Click:Connect(function()
+    showCyberN
