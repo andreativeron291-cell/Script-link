@@ -46,79 +46,17 @@
             transform: scale(0.95);
         }
 
-        #schermata-script {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 340px;
-        }
-
-        .script-box {
-            background-color: #c4b533;
-            border: 3px solid #000000;
-            border-radius: 25px;
-            padding: 15px;
-            width: 100%;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 8px 25px rgba(196, 181, 51, 0.3);
-        }
-
-        textarea {
-            width: 100%;
-            height: 280px;
-            background-color: #1a1a1a;
-            color: #00ff88;
-            font-size: 8px;
-            font-family: monospace;
-            border: 2px solid #000;
-            border-radius: 12px;
-            padding: 10px;
-            resize: none;
-            box-sizing: border-box;
-        }
-
-        .copy-btn {
-            background-color: #c4b533;
-            color: #000000;
-            border: 3px solid #000000;
-            border-radius: 16px;
-            padding: 14px 40px;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 6px 15px rgba(196, 181, 51, 0.4);
-            margin-top: 20px;
-            text-transform: uppercase;
-        }
-        .copy-btn:active {
-            transform: scale(0.95);
-        }
-
-        .back-btn {
-            background: none;
-            border: none;
-            color: #ff64c8;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: 15px;
-            text-decoration: underline;
-        }
-
         #notifica {
-            margin-top: 10px;
-            font-size: 14px;
+            margin-top: 25px;
+            font-size: 16px;
             color: #00ff88;
             font-weight: bold;
-            height: 20px;
+            height: 30px;
             text-align: center;
         }
 
         .footer {
-            margin-top: 30px;
+            margin-top: 40px;
             font-size: 12px;
             color: #ff64c8;
             text-align: center;
@@ -127,25 +65,20 @@
 </head>
 <body>
 
-    <!-- MENU PRINCIPALE -->
+    <!-- MENU PRINCIPALE CON COPIA IMMEDIATA -->
     <div id="menu-principale">
-        <button class="main-btn" onclick="apriScript('troll')">script troll</button>
-        <button class="main-btn" onclick="apriScript('disasters')">script disasters</button>
+        <button class="main-btn" onclick="copiaImmediato('troll')">script troll</button>
+        <button class="main-btn" onclick="copiaImmediato('disasters')">script disasters</button>
     </div>
 
-    <!-- SCHERMATA SCRIPT -->
-    <div id="schermata-script">
-        <div class="script-box">
-            <textarea id="casella-testo" readonly></textarea>
-        </div>
-        <button class="copy-btn" onclick="eseguiCopia()">COPY</button>
-        <div id="notifica"></div>
-        <button class="back-btn" onclick="tornaAlMenu()">← Indietro</button>
-    </div>
+    <div id="notifica"></div>
 
     <div class="footer">
         by gg_script26, andrea_susamongus29
     </div>
+
+    <!-- TEXTAREA NASCOSTA NECESSARIA PER IL SUPPORTO DEI DISPOSITIVI MOBILI -->
+    <textarea id="hidden-textarea" style="position: absolute; left: -9999px;"></textarea>
 
     <script>
         // SCRIPT TROLL INTERO AL 100%
@@ -554,4 +487,56 @@ tpRandomButton.MouseButton1Click:Connect(function()
 end)
 
 pushButton.MouseButton1Click:Connect(function()
-    showCyberN
+    showCyberNotice("💣 [OGGETTI LANCIATI IN ARIA!] 💣", Color3.fromRGB(255, 100, 0))
+    for _, obj in ipairs(Workspace:GetDescendants()) do
+        pcall(function()
+            if obj:IsA("BasePart") and not obj.Anchored and not obj:IsDescendantOf(character) then
+                obj.Velocity = Vector3.new(math.random(-80, 80), 120, math.random(-80, 80))
+            end
+        end)
+    end
+end)
+
+local function detachTarget()
+    targetToBug = nil
+    isAttached = false
+    if bugConnection then bugConnection:Disconnect() end
+    if humanoid then humanoid.PlatformStand = false end
+end
+
+releaseButton.MouseButton1Click:Connect(function()
+    detachTarget()
+    showCyberNotice("⚠ [SGANCIATO CORRETTAMENTE] ⚠️", Color3.fromRGB(255, 50, 50))
+end)
+
+print("Ultimate Rainbow Mega Troll Hub v13 caricato correttamente!");`;
+
+        // SCRIPT DISASTERS INTERO AL 100%
+        const scriptDisastersCode = `--[[
+    SCRIPT: Ultimate Mega Troll Hub v17 (Disasters & Mobile Icon Edition)
+    PLATFORM: Delta Executor
+]]--
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local humanoid = character:WaitForChild("Humanoid")
+
+local playerGui = player:WaitForChild("PlayerGui")
+if playerGui:FindFirstChild("MegaTrollHubV17") then
+    playerGui.MegaTrollHubV17:Destroy()
+end
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "MegaTrollHubV17"
+screenGui.Parent = playerGui
+
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 55, 0, 55)
+toggleButton.Position = UDim2.new(0.02, 0, 0.15, 0)
+toggl
