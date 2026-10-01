@@ -23,7 +23,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
             width: 100%;
             max-width: 320px;
         }
@@ -33,8 +33,8 @@
             color: #000000;
             border: 3px solid #000;
             border-radius: 16px;
-            padding: 24px;
-            font-size: 22px;
+            padding: 20px;
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
@@ -46,17 +46,80 @@
             transform: scale(0.95);
         }
 
+        #sezione-codice {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 340px;
+            margin-top: 15px;
+        }
+
+        .script-box {
+            background-color: #c4b533;
+            border: 3px solid #000000;
+            border-radius: 20px;
+            padding: 12px;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 8px 25px rgba(196, 181, 51, 0.3);
+        }
+
+        textarea {
+            width: 100%;
+            height: 220px;
+            background-color: #1a1a1a;
+            color: #00ff88;
+            font-size: 9px;
+            font-family: monospace;
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 8px;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        .action-btn {
+            background-color: #00ff88;
+            color: #000000;
+            border: 3px solid #000000;
+            border-radius: 14px;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 12px rgba(0, 255, 136, 0.3);
+            margin-top: 12px;
+            text-transform: uppercase;
+        }
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #ff64c8;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 12px;
+            text-decoration: underline;
+        }
+
         #notifica {
-            margin-top: 25px;
-            font-size: 16px;
+            margin-top: 8px;
+            font-size: 13px;
             color: #00ff88;
             font-weight: bold;
-            height: 30px;
+            height: 18px;
             text-align: center;
         }
 
         .footer {
-            margin-top: 40px;
+            margin-top: 25px;
             font-size: 12px;
             color: #ff64c8;
             text-align: center;
@@ -65,20 +128,25 @@
 </head>
 <body>
 
-    <!-- MENU PRINCIPALE CON COPIA IMMEDIATA -->
+    <!-- MENU PRINCIPALE -->
     <div id="menu-principale">
-        <button class="main-btn" onclick="copiaImmediato('troll')">script troll</button>
-        <button class="main-btn" onclick="copiaImmediato('disasters')">script disasters</button>
+        <button class="main-btn" onclick="mostraScript('troll')">script troll</button>
+        <button class="main-btn" onclick="mostraScript('disasters')">script disasters</button>
     </div>
 
-    <div id="notifica"></div>
+    <!-- SEZIONE CODICE PRONTO -->
+    <div id="sezione-codice">
+        <div class="script-box">
+            <textarea id="casella-testo" readonly onclick="this.select()"></textarea>
+        </div>
+        <button class="action-btn" onclick="copiaManuale()">COPIA</button>
+        <div id="notifica"></div>
+        <button class="back-btn" onclick="tornaAlMenu()">← Torna al Menu</button>
+    </div>
 
     <div class="footer">
         by gg_script26, andrea_susamongus29
     </div>
-
-    <!-- TEXTAREA NASCOSTA NECESSARIA PER IL SUPPORTO DEI DISPOSITIVI MOBILI -->
-    <textarea id="hidden-textarea" style="position: absolute; left: -9999px;"></textarea>
 
     <script>
         // SCRIPT TROLL INTERO AL 100%
@@ -484,59 +552,3 @@ tpRandomButton.MouseButton1Click:Connect(function()
             showCyberNotice("⚠️ [NESSUN TARGET DISPONIBILE] ⚠️", Color3.fromRGB(255, 100, 100))
         end
     end)
-end)
-
-pushButton.MouseButton1Click:Connect(function()
-    showCyberNotice("💣 [OGGETTI LANCIATI IN ARIA!] 💣", Color3.fromRGB(255, 100, 0))
-    for _, obj in ipairs(Workspace:GetDescendants()) do
-        pcall(function()
-            if obj:IsA("BasePart") and not obj.Anchored and not obj:IsDescendantOf(character) then
-                obj.Velocity = Vector3.new(math.random(-80, 80), 120, math.random(-80, 80))
-            end
-        end)
-    end
-end)
-
-local function detachTarget()
-    targetToBug = nil
-    isAttached = false
-    if bugConnection then bugConnection:Disconnect() end
-    if humanoid then humanoid.PlatformStand = false end
-end
-
-releaseButton.MouseButton1Click:Connect(function()
-    detachTarget()
-    showCyberNotice("⚠ [SGANCIATO CORRETTAMENTE] ⚠️", Color3.fromRGB(255, 50, 50))
-end)
-
-print("Ultimate Rainbow Mega Troll Hub v13 caricato correttamente!");`;
-
-        // SCRIPT DISASTERS INTERO AL 100%
-        const scriptDisastersCode = `--[[
-    SCRIPT: Ultimate Mega Troll Hub v17 (Disasters & Mobile Icon Edition)
-    PLATFORM: Delta Executor
-]]--
-
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local Workspace = game:GetService("Workspace")
-local Lighting = game:GetService("Lighting")
-
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-local humanoid = character:WaitForChild("Humanoid")
-
-local playerGui = player:WaitForChild("PlayerGui")
-if playerGui:FindFirstChild("MegaTrollHubV17") then
-    playerGui.MegaTrollHubV17:Destroy()
-end
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "MegaTrollHubV17"
-screenGui.Parent = playerGui
-
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 55, 0, 55)
-toggleButton.Position = UDim2.new(0.02, 0, 0.15, 0)
-toggl
